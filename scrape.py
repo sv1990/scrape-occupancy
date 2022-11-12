@@ -2,7 +2,7 @@
 
 import json
 from contextlib import contextmanager
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from time import sleep
 from typing import Generator
@@ -65,7 +65,9 @@ def store_json(result: dict[str, str | float], output_folder: Path) -> None:
 
 
 def get_percentages(driver: Firefox, urls: dict[str, str]) -> dict[str, str | float]:
-    result: dict[str, str | float] = {"timestamp": datetime.now().isoformat()}
+    result: dict[str, str | float] = {
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    }
     for name, url in urls.items():
         driver.get(url)
         percentage = get_percentage(driver)

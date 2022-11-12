@@ -101,13 +101,13 @@ def accept_cookies(driver: Firefox) -> None:
 def get_driver() -> Generator[Firefox, None, None]:
     options = Options()
     options.headless = True
+    driver = Firefox(options=options)
+    driver.maximize_window()
+    driver.implicitly_wait(10)
     try:
-        driver = Firefox(options=options)
-        driver.maximize_window()
-        driver.implicitly_wait(10)
         yield driver
     finally:
-        driver.close()  # type: ignore
+        driver.close()
 
 
 if __name__ == "__main__":

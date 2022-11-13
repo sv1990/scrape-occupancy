@@ -61,7 +61,7 @@ def store_json(result: dict[str, str | float], output_folder: Path) -> None:
     filename = output_folder / f"percentages_{result['timestamp']}.json"
     with open(filename, "w", encoding="utf-8") as file:
         json.dump(result, file)
-        print(f"Stored occupations in {filename.resolve()}")
+        print(f"Stored occupancies in {filename.resolve()}")
 
 
 def get_percentages(driver: Firefox, urls: dict[str, str]) -> dict[str, str | float]:

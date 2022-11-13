@@ -39,7 +39,6 @@ def main() -> None:
     }
 
     output_folder = args.output_folder
-    output_folder.mkdir(exist_ok=True, parents=True)
 
     with get_driver() as driver:
 
@@ -58,6 +57,12 @@ def main() -> None:
 
 
 def store_json(result: dict[str, str | float], output_folder: Path) -> None:
+    output_folder = (
+        output_folder
+        / "raw"
+        / datetime.fromisoformat(str(result["timestamp"])).strftime("%Y-%m-%d")
+    )
+    output_folder.mkdir(exist_ok=True, parents=True)
     filename = output_folder / f"percentages_{result['timestamp']}.json"
     with open(filename, "w", encoding="utf-8") as file:
         json.dump(result, file)

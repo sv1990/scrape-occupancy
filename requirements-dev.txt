@@ -4,3 +4,5 @@ ipykernel
 isort
 mypy
 pylint
+pyright
+pandas-stubs

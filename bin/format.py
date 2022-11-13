@@ -9,12 +9,11 @@ from tap import Tap
 
 
 class Args(Tap):
-    input_folder: Path = Path("out")
+    input_folder: Path = Path("out/raw")
     output_folder: Path = Path("out")
-    once: bool = False
-    sleep: int = 60
 
     def configure(self) -> None:
+        self.add_argument("--input_folder", "-i")
         self.add_argument("--output_folder", "-o")
 
 
@@ -35,7 +34,7 @@ def read_folder(input_folder: Path) -> pd.DataFrame:
             return pd.json_normalize(data)
 
     df = pd.concat(
-        (read_data(file) for file in input_folder.glob("raw/*/*.json")),
+        [read_data(file) for file in input_folder.glob("*/*.json")],
         ignore_index=True,
     )
     df.timestamp = pd.to_datetime(df.timestamp)

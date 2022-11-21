@@ -38,7 +38,7 @@ def read_folder(input_folder: Path) -> pd.DataFrame:
         ignore_index=True,
     )
     df.timestamp = pd.to_datetime(df.timestamp)
-    df["timestamp"] = df["timestamp"].dt.tz_convert("Europe/Berlin")
+    df["timestamp"] = df["timestamp"].dt.tz_convert("Europe/Berlin").dt.round("T")
     df = df.set_index("timestamp").sort_index()
     df.columns.name = "studio"
     return df

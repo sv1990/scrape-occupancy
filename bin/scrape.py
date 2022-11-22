@@ -94,6 +94,13 @@ def get_percentage(driver: Firefox) -> float:
 def accept_cookies(driver: Firefox) -> None:
     sleep(10)
 
+    # TODO: Improve this fix
+    item = driver.execute_script(
+        """return document.querySelector('#usercentrics-root')"""
+    )
+    if item is None:
+        return
+
     item = driver.execute_script(
         """return document.querySelector('#usercentrics-root')"""
         """.shadowRoot.querySelector("[data-testid='uc-accept-all-button']")"""

@@ -6,10 +6,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from time import sleep
 from typing import Generator
+from webbrowser import Chrome
 
-from selenium.webdriver import Firefox
+from selenium.webdriver import Chrome
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from tap import Tap
@@ -69,7 +70,7 @@ def store_json(result: dict[str, str | float], output_folder: Path) -> None:
         print(f"Stored occupancies in {filename.resolve()}")
 
 
-def get_percentages(driver: Firefox, urls: dict[str, str]) -> dict[str, str | float]:
+def get_percentages(driver: Chrome, urls: dict[str, str]) -> dict[str, str | float]:
     result: dict[str, str | float] = {
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
@@ -81,7 +82,7 @@ def get_percentages(driver: Firefox, urls: dict[str, str]) -> dict[str, str | fl
     return result
 
 
-def get_percentage(driver: Firefox) -> float:
+def get_percentage(driver: Chrome) -> float:
     wait = WebDriverWait(driver, 10)
     item = wait.until(
         EC.presence_of_element_located(
@@ -91,7 +92,7 @@ def get_percentage(driver: Firefox) -> float:
     return float(item.text.rstrip("%").strip())
 
 
-def accept_cookies(driver: Firefox) -> None:
+def accept_cookies(driver: Chrome) -> None:
     sleep(10)
 
     item = driver.execute_script(
@@ -103,16 +104,15 @@ def accept_cookies(driver: Firefox) -> None:
            }
         """
     )
-    print(item)
     if item is not None:
         item.click()
 
 
 @contextmanager
-def get_driver() -> Generator[Firefox, None, None]:
+def get_driver() -> Generator[Chrome, None, None]:
     options = Options()
     options.headless = True
-    driver = Firefox(options=options)
+    driver = Chrome(options=options)
     driver.maximize_window()
     driver.implicitly_wait(10)
     try:

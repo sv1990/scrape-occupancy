@@ -6,7 +6,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from time import sleep
 from typing import Generator
-from webbrowser import Chrome
 
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options

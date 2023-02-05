@@ -41,7 +41,6 @@ def main() -> None:
     output_folder = args.output_folder
 
     with get_driver() as driver:
-
         driver.get(next(iter(urls.values())))
         accept_cookies(driver)
 
